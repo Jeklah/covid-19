@@ -36,3 +36,21 @@ def initiateSim():
     maskDay = int(input("Day for masks to be used: "))
 
     return daysContagious, lockdownDay, maskDay
+
+def runDay(daysContagious, lockdown):
+    # this section simulates the spread, so it only operates on contagious people, thus:
+    for person in [person for person in peopleDictionary if people.contagiousness > 0 and person.friends > 0]:
+        peopleCouldMeetToday = int(person.friends / 2)
+        if peopleCouldMeetToday > 0:
+            peopleMetToday = random.randint(0, peopleCouldMeetToday)
+        else:
+            peopleMetToday = 0
+
+        if lockdown == True:
+            peopleMetToday = 0
+
+        for x in range(0, peopleMetToday):
+            friendInQuestion = peopleDictionary[random.randint(0, len(peopleDictionary)-1)]
+            if random.randint(0, 100) < person.contagiousness and friendInQuestion.contagiousness == 0 and friendInQuestion.immunity == False:
+                friendInQuestion.contagiousness = int((norm.rvs(size=1, loc=0.5, scale=0.15)[0]*10).round(0)*10)
+                print(peopleDictionary.index(person), " >>> ", peopleDictionary.index(friendInQuestion))
