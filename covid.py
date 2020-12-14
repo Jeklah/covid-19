@@ -2,6 +2,7 @@ from scipy.stats import norm
 import random
 import time
 
+peopleDictionary = []
 # simulation of a single person
 class Person():
     def __init__(self, startingImmunity):
