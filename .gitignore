@@ -6,3 +6,4 @@ TaxiDemo/Scripts/.ipynb_checkpoints/
 derby.log
 metastore_db/
 __pycache__/
+.python-version
