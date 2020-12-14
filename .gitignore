@@ -1,0 +1,8 @@
+*.csv
+*.xls
+*.7z
+MaritimeDemo/Scripts/.ipynb_checkpoints/
+TaxiDemo/Scripts/.ipynb_checkpoints/
+derby.log
+metastore_db/
+__pycache__/
