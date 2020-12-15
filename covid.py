@@ -40,7 +40,7 @@ def initiateSim():
 
 def runDay(daysContagious, lockdown):
     # this section simulates the spread, so it only operates on contagious people, thus:
-    for person in [person for person in peopleDictionary if people.contagiousness > 0 and person.friends > 0]:
+    for person in [person for person in peopleDictionary if person.contagiousness > 0 and person.friends > 0]:
         peopleCouldMeetToday = int(person.friends / 2)
         if peopleCouldMeetToday > 0:
             peopleMetToday = random.randint(0, peopleCouldMeetToday)
