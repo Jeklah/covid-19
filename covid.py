@@ -65,7 +65,7 @@ def runDay(daysContagious, lockdown):
 
 lockdown = False
 daysContagious, lockdownDay, maskDay = initiateSim()
-saveFile = open("pandemicSave3.txt" "a")
+saveFile = open("pandemicSave3.txt", "a")
 for x in range(0, 100):
     if x ==lockdownDay:
         lockdown = True
