@@ -18,8 +18,8 @@ class Person():
         # use gaussian distribution for number of friends, average is 5 friends.
         self.friends = int((norm.rvs(size=1, loc=0.5, scale=0.15)[0]*10).round(0))
 
-        def wearMask(self):
-            self.contagiousness /= 2
+    def wearMask(self):
+        self.contagiousness /= 2
 
 def initiateSim():
     numPeople = int(input("Population: "))
