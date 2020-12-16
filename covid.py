@@ -57,11 +57,12 @@ def runDay(daysContagious, lockdown):
                 print(peopleDictionary.index(person), " >>> ", peopleDictionary.index(friendInQuestion))
 
     for person in [person for person in peopleDictionary if person.contagiousness > 0]:
-        person.contagiousness +=1
+        person.contagiousDays +=1
         if person.contagiousDays > daysContagious:
             person.immunity = True
             person.contagiousness = 0
             print("|||", peopleDictionary.index(person), " |||")
+    time.sleep(1.5)
 
 lockdown = False
 daysContagious, lockdownDay, maskDay = initiateSim()
@@ -70,14 +71,14 @@ for x in range(0, 100):
     if x ==lockdownDay:
         lockdown = True
 
-    if x == maskDay:
+    if x >= maskDay:
         for person in peopleDictionary:
             person.wearMask()
-
+            print("Person ", x, " is wearing a mask.")
     print("Day ", x)
     runDay(daysContagious, lockdown)
     write = str(len([person for person in peopleDictionary if person.contagiousness > 0])) + "\n"
     saveFile.write(write)
     print(len([person for person in peopleDictionary if person.contagiousness > 0]), "people are contagious on this day.")
-
+    time.sleep(2)
 saveFile.close()
