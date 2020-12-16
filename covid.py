@@ -61,7 +61,7 @@ def runDay(daysContagious, lockdown):
         if person.contagiousDays > daysContagious:
             person.immunity = True
             person.contagiousness = 0
-            print("|||", peopleDictionary.index(person), " |||")
+            print("|||", peopleDictionary.index(person), " is immune. |||")
     time.sleep(1.5)
 
 lockdown = False
@@ -80,5 +80,6 @@ for x in range(0, 100):
     write = str(len([person for person in peopleDictionary if person.contagiousness > 0])) + "\n"
     saveFile.write(write)
     print(len([person for person in peopleDictionary if person.contagiousness > 0]), "people are contagious on this day.")
+    print(len([person for person in peopleDictionary if person.mask == True]), "people are wearing masks on this day.")
     time.sleep(2)
 saveFile.close()
