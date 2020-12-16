@@ -63,7 +63,7 @@ def runDay(daysContagious, lockdown):
             person.contagiousness = 0
             print("|||", peopleDictionary.index(person), " is immune. |||")
     time.sleep(1.5)
-masksWorn = 0
+masksWorn = 0 # obsolete
 lockdown = False
 daysContagious, lockdownDay, maskDay = initiateSim()
 saveFile = open("pandemicSave.txt", "a")
