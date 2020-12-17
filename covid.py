@@ -17,10 +17,15 @@ class Person():
 
         # use gaussian distribution for number of friends, average is 5 friends.
         self.friends = int((norm.rvs(size=1, loc=0.5, scale=0.15)[0]*10).round(0))
+        # self.maskChance = int((norm.rvs(size=100, loc=1, scale = 5)[0]*10).round(0))
 
     def wearMask(self):
-        self.contagiousness /= 2
-        self.mask = True
+       # print(self.maskChance)
+        if self.maskChance > 50:
+            self.contagiousness /= 2
+            self.mask = True
+        else:
+            self.mask = False
 
 def initiateSim():
     numPeople = int(input('Population: '))
@@ -41,6 +46,11 @@ def initiateSim():
 
 def runDay(daysContagious, lockdown):
     # this section simulates the spread, so it only operates on contagious people, thus:
+    for person in peopleDictionary:
+        person.maskChance = int((norm.rvs(size=100, loc=1, scale=5)[0]).round(0))
+
+
+
     for person in [person for person in peopleDictionary if person.contagiousness > 0 and person.friends > 0]:
         peopleCouldMeetToday = int(person.friends / 2)
         if peopleCouldMeetToday > 0:
@@ -83,4 +93,5 @@ for x in range(0, 100):
     print(len([person for person in peopleDictionary if person.contagiousness > 0]), 'people are contagious on this day.')
     print(len([person for person in peopleDictionary if person.mask == True]), 'people are wearing masks on this day.', '\n')
     time.sleep(2)
+
 saveFile.close()
