@@ -20,6 +20,7 @@ class Person():
 
     def wearMask(self):
         self.contagiousness /= 2
+        self.mask = True
 
 def initiateSim():
     numPeople = int(input("Population: "))
@@ -63,21 +64,19 @@ def runDay(daysContagious, lockdown):
             person.contagiousness = 0
             print("|||", peopleDictionary.index(person), " is immune. |||")
     time.sleep(1.5)
-masksWorn = 0 # obsolete
+
 lockdown = False
 daysContagious, lockdownDay, maskDay = initiateSim()
 saveFile = open("pandemicSave.txt", "a")
 for x in range(0, 100):
-    if x ==lockdownDay:
+    print("Day ", x)
+    if x == lockdownDay:
         lockdown = True
 
     if x >= maskDay:
         for person in peopleDictionary:
             person.wearMask()
-            masksWorn += 1
-    print(masksWorn, 'people are wearing masks today.')
 
-    print("Day ", x)
     runDay(daysContagious, lockdown)
     write = str(len([person for person in peopleDictionary if person.contagiousness > 0])) + "\n"
     saveFile.write(write)
