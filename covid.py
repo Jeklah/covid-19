@@ -17,7 +17,8 @@ class Person():
 
         # use gaussian distribution for number of friends, average is 5 friends.
         self.friends = int((norm.rvs(size=1, loc=0.5, scale=0.15)[0]*10).round(0))
-        # self.maskChance = int((norm.rvs(size=100, loc=1, scale = 5)[0]*10).round(0))
+        self.maskChance = int((norm.rvs(size=100, loc=1, scale = 5)[0]*10).round(0))
+        self.maskCounted = False
 
     def wearMask(self):
        # print(self.maskChance)
@@ -76,6 +77,7 @@ def runDay(daysContagious, lockdown):
     time.sleep(1.5)
 
 lockdown = False
+maskCount = 0
 daysContagious, lockdownDay, maskDay = initiateSim()
 saveFile = open('pandemicSave.txt', 'a')
 for x in range(0, 100):
@@ -87,11 +89,16 @@ for x in range(0, 100):
         for person in peopleDictionary:
             person.wearMask()
 
+    for person in peopleDictionary:
+        if person.mask == True and person.maskCounted == False:
+            person.maskCounted = True
+            maskCount += 1
+
     runDay(daysContagious, lockdown)
     write = str(len([person for person in peopleDictionary if person.contagiousness > 0])) + '\n'
     saveFile.write(write)
     print(len([person for person in peopleDictionary if person.contagiousness > 0]), 'people are contagious on this day.')
-    print(len([person for person in peopleDictionary if person.mask == True]), 'people are wearing masks on this day.', '\n')
+    print(maskcountC, 'people are wearing masks on this day.', '\n')
     time.sleep(2)
 
 saveFile.close()
