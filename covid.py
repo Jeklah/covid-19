@@ -6,6 +6,7 @@ peopleDictionary = []
 # simulation of a single person
 class Person():
     def __init__(self, startingImmunity):
+        self.maskChance = random.randint(1,100)
         if random.randint(0, 100) < startingImmunity:
             self.immunity = True
         else:
@@ -17,11 +18,10 @@ class Person():
 
         # use gaussian distribution for number of friends, average is 5 friends.
         self.friends = int((norm.rvs(size=1, loc=0.5, scale=0.15)[0]*10).round(0))
-        self.maskChance = int((norm.rvs(size=100, loc=1, scale = 5)[0]*10).round(0))
         self.maskCounted = False
 
     def wearMask(self):
-       # print(self.maskChance)
+        print(self.maskChance)
         if self.maskChance > 50:
             self.contagiousness /= 2
             self.mask = True
@@ -98,7 +98,7 @@ for x in range(0, 100):
     write = str(len([person for person in peopleDictionary if person.contagiousness > 0])) + '\n'
     saveFile.write(write)
     print(len([person for person in peopleDictionary if person.contagiousness > 0]), 'people are contagious on this day.')
-    print(maskcountC, 'people are wearing masks on this day.', '\n')
+    print(maskCount, 'people are wearing masks on this day.', '\n')
     time.sleep(2)
 
 saveFile.close()
