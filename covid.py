@@ -48,7 +48,7 @@ def initiateSim():
 def runDay(daysContagious, lockdown):
     # this section simulates the spread, so it only operates on contagious people, thus:
     for person in peopleDictionary:
-        person.maskChance = int((norm.rvs(size=100, loc=1, scale=5)[0]).round(0))
+        person.maskChance = random.randint(1, 100)
 
 
 
