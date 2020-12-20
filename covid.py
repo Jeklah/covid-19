@@ -21,7 +21,7 @@ class Person():
         self.maskCounted = False
 
     def wearMask(self):
-        print(self.maskChance)
+        #print(self.maskChance)
         if self.maskChance > 50:
             self.contagiousness /= 2
             self.mask = True
