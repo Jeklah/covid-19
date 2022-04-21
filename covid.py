@@ -6,11 +6,7 @@ peopleDictionary = []
 # simulation of a single person
 class Person():
     def __init__(self, startingImmunity):
-        if random.randint(0, 100) < startingImmunity:
-            self.immunity = True
-        else:
-            self.immunity = False
-
+        self.immunity = random.randint(0, 100) < startingImmunity
         self.contagiousness = 0
         self.contagiousDays = 0
         self.maskChance = 0
@@ -33,10 +29,10 @@ def initiateSim():
     startingImmunity = int(input('Percentage of people with natural immunity: '))
     startingInfecters = int(input('How many people will be infectious at t=0: '))
 
-    for x in range(0, numPeople):
+    for _ in range(numPeople):
         peopleDictionary.append(Person(startingImmunity))
 
-    for x in range(0, startingInfecters):
+    for _ in range(startingInfecters):
         peopleDictionary[random.randint(0, len(peopleDictionary)-1)].contagiousness = int((norm.rvs(size=1, loc=0.5, scale=0.15)[0]*10).round(0)*10)
 
     daysContagious = int(input('How many days contagious: '))
@@ -60,7 +56,7 @@ def runDay(daysContagious, lockdown):
         if lockdown == True:
             peopleMetToday = 0
 
-        for x in range(0, peopleMetToday):
+        for x in range(peopleMetToday):
             friendInQuestion = peopleDictionary[random.randint(0, len(peopleDictionary)-1)]
             if random.randint(0, 100) < person.contagiousness and friendInQuestion.contagiousness == 0 and friendInQuestion.immunity == False:
                 friendInQuestion.contagiousness = int((norm.rvs(size=1, loc=0.5, scale=0.15)[0]*10).round(0)*10)
@@ -77,29 +73,27 @@ def runDay(daysContagious, lockdown):
 lockdown = False
 maskCount = 0
 daysContagious, lockdownDay, maskDay = initiateSim()
-saveFile = open('pandemicSave.txt', 'a')
-for x in range(0, 100):
-    print('Day ', x)
-    if x == lockdownDay:
-        lockdown = True
+with open('pandemicSave.txt', 'a') as saveFile:
+    for x in range(100):
+        print('Day ', x)
+        if x == lockdownDay:
+            lockdown = True
 
-    if x >= maskDay:
+        if x >= maskDay:
+            for person in peopleDictionary:
+                person.wearMask()
+
         for person in peopleDictionary:
-            person.wearMask()
+            if person.mask == True and person.maskCounted == False:
+                person.maskCounted = True
+                maskCount += 1
+            elif person.mask == False and person.maskCounted == True:
+                person.maskCounted = False
+                maskCount -= 1
 
-    for person in peopleDictionary:
-        if person.mask == True and person.maskCounted == False:
-            person.maskCounted = True
-            maskCount += 1
-        elif person.mask == False and person.maskCounted == True:
-            person.maskCounted = False
-            maskCount -= 1
-
-    runDay(daysContagious, lockdown)
-    write = str(len([person for person in peopleDictionary if person.contagiousness > 0])) + '\n'
-    saveFile.write(write)
-    print(len([person for person in peopleDictionary if person.contagiousness > 0]), 'people are contagious on this day.')
-    print(maskCount, 'people are wearing masks on this day.', '\n')
-    time.sleep(2)
-
-saveFile.close()
+        runDay(daysContagious, lockdown)
+        write = str(len([person for person in peopleDictionary if person.contagiousness > 0])) + '\n'
+        saveFile.write(write)
+        print(len([person for person in peopleDictionary if person.contagiousness > 0]), 'people are contagious on this day.')
+        print(maskCount, 'people are wearing masks on this day.', '\n')
+        time.sleep(2)
